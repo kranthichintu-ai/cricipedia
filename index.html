@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fan-made guide to the players, records and stories of Indian cricket.">
+    <title>Crikipedia | Indian cricket, documented</title>
+    <style>
+        :root { color-scheme: light; --ink: #202122; --muted: #54595d; --paper: #fff; --canvas: #f8f9fa; --link: #0645ad; --green: #176b4d; --gold: #f4c453; --serif: Georgia, "Times New Roman", serif; --sans: "Segoe UI", Tahoma, sans-serif; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; color: var(--ink); background: var(--canvas); font: 15px/1.65 var(--sans); }
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .topline { height: 5px; background: linear-gradient(90deg, var(--green) 0 34%, #fff 34% 67%, #e99b30 67%); }
+        .masthead { max-width: 1320px; margin: auto; padding: 25px 34px 18px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+        .brand { display: flex; align-items: center; gap: 13px; color: var(--ink); }
+        .brand-mark { width: 45px; height: 45px; display: grid; place-items: center; background: var(--green); color: white; border-radius: 50%; font: bold 24px var(--serif); }
+        .brand-name { display: block; font: 31px/1 var(--serif); }
+        .brand-tag { display: block; color: var(--muted); font-size: 12px; margin-top: 5px; }
+        .mast-tools { display: flex; align-items: center; gap: 19px; color: var(--muted); font-size: 13px; }
+        .page, footer { max-width: 1320px; margin: auto; padding: 0 34px 40px; }
+        .layout { display: grid; grid-template-columns: 218px minmax(0, 1fr); gap: 30px; align-items: start; }
+        .sidebar { position: sticky; top: 18px; padding: 17px 15px; border: 1px solid #c8ccd1; background: #f8f9fa; font-size: 13px; }
+        .sidebar-title { font: 17px var(--serif); border-bottom: 1px solid #c8ccd1; padding-bottom: 8px; margin: 0 0 9px; }
+        .sidebar nav { display: grid; gap: 5px; }
+        .sidebar a { padding: 3px 5px; }
+        .sidebar a.active { color: var(--ink); font-weight: 700; border-left: 3px solid var(--green); }
+        .side-note { border-top: 1px solid #c8ccd1; margin-top: 15px; padding-top: 12px; color: var(--muted); font-size: 12px; }
+        main { min-width: 0; background: var(--paper); border: 1px solid #c8ccd1; }
+        .article-head { padding: 25px 30px 0; }
+        .eyebrow { color: var(--green); text-transform: uppercase; letter-spacing: 1.4px; font-size: 11px; font-weight: 700; }
+        h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+        h1 { margin: 4px 0 0; font-size: clamp(30px, 4vw, 43px); line-height: 1.15; }
+        .subtitle { color: var(--muted); margin: 7px 0 17px; }
+        .article-tabs { display: flex; justify-content: space-between; border-bottom: 1px solid #a2a9b1; font-size: 13px; }
+        .tab-group { display: flex; gap: 18px; }
+        .article-tabs a { padding: 8px 1px; }
+        .article-tabs .selected { color: var(--ink); border-bottom: 2px solid var(--green); }
+        .article-body { padding: 23px 30px 34px; }
+        .hero { min-height: 260px; display: grid; grid-template-columns: 1.1fr .9fr; overflow: hidden; background: #123e32; color: #fff; }
+        .hero-copy { align-self: center; padding: 29px 31px; }
+        .hero-kicker { color: #e9ca77; text-transform: uppercase; font-weight: 700; letter-spacing: 1.4px; font-size: 11px; }
+        .hero h2 { font-size: clamp(28px, 3vw, 39px); line-height: 1.12; margin: 8px 0 13px; }
+        .hero p { color: #e1e9e5; max-width: 440px; margin: 0 0 18px; }
+        .hero-link { color: #fff; border-bottom: 1px solid var(--gold); padding-bottom: 3px; font-weight: 600; }
+        .hero-image { min-height: 260px; background: linear-gradient(90deg, #123e32 0%, #123e3222 30%), url("https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=85") center 54% / cover; }
+        .intro { max-width: 850px; margin: 22px 0 26px; }
+        .intro strong { color: #145b43; }
+        .contents { display: inline-block; min-width: 245px; border: 1px solid #c8ccd1; background: #f8f9fa; padding: 12px 16px; margin: 0 0 28px; font-size: 13px; }
+        .contents h3 { font: 700 14px var(--sans); margin: 0 0 5px; }
+        .contents ol { margin: 0; padding-left: 23px; }
+        .contents li { padding: 1px 0; }
+        .section { scroll-margin-top: 20px; margin: 0 0 31px; }
+        .section h2 { font-size: 27px; line-height: 1.25; margin: 0 0 10px; padding-bottom: 5px; border-bottom: 1px solid #a2a9b1; }
+        .section p { max-width: 890px; margin: 8px 0; }
+        .player-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+        .player { display: flex; min-height: 116px; gap: 12px; align-items: center; border: 1px solid #c8ccd1; padding: 13px; background: #fff; transition: border-color .18s, transform .18s; }
+        .player:hover { border-color: var(--green); transform: translateY(-2px); }
+        .player-initial { flex: 0 0 52px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: #eaf3ee; color: var(--green); font: 20px var(--serif); }
+        .player h3 { font-size: 17px; line-height: 1.2; margin: 0 0 4px; }
+        .player p { color: var(--muted); font-size: 12px; line-height: 1.4; margin: 0; }
+        .player a { font-size: 12px; }
+        .search-row { display: flex; align-items: center; gap: 10px; margin: 12px 0 3px; }
+        .search-row label { font-size: 13px; font-weight: 600; }
+        .search-row input { width: min(100%, 330px); border: 1px solid #72777d; border-radius: 2px; padding: 8px 10px; background: #fff; }
+        .search-row input:focus { outline: 2px solid #36c; outline-offset: 1px; }
+        .no-results { display: none; color: var(--muted); font-style: italic; padding: 12px 0; }
+        .fact-strip { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #c8ccd1; margin: 16px 0; }
+        .fact { padding: 14px 16px; border-right: 1px solid #c8ccd1; }
+        .fact:last-child { border-right: 0; }
+        .fact strong { display: block; color: var(--green); font: 24px var(--serif); }
+        .fact span { color: var(--muted); font-size: 12px; }
+        .quote { border-left: 3px solid var(--gold); margin: 18px 0; padding: 7px 15px; color: #3b4145; font: italic 17px/1.5 var(--serif); }
+        .wiki-box { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 16px 18px; border: 1px solid #a7d7f9; background: #f1f8fc; font-size: 13px; }
+        .wiki-box p { margin: 0; }
+        .wiki-box a { flex: 0 0 auto; }
+        footer { padding-top: 18px; padding-bottom: 28px; color: var(--muted); font-size: 12px; }
+        footer nav { display: flex; flex-wrap: wrap; gap: 18px; padding-top: 8px; }
+        @media (max-width: 900px) { .layout { grid-template-columns: 175px minmax(0, 1fr); gap: 18px; } .masthead, .page, footer { padding-left: 20px; padding-right: 20px; } .article-head, .article-body { padding-left: 22px; padding-right: 22px; } .player-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 650px) {
+            .masthead { padding: 17px 14px 14px; } .brand-name { font-size: 27px; } .mast-tools { display: none; } .page { padding: 0 10px 26px; }
+            .layout { display: block; } .sidebar { position: static; margin-bottom: 10px; padding: 9px 11px; } .sidebar-title, .side-note { display: none; }
+            .sidebar nav { display: flex; overflow-x: auto; gap: 5px; white-space: nowrap; } .sidebar a { padding: 4px 9px; } .sidebar a.active { border-left: 0; border-bottom: 2px solid var(--green); }
+            .article-head { padding: 18px 16px 0; } .article-body { padding: 16px 16px 26px; } .hero { grid-template-columns: 1fr; } .hero-copy { padding: 24px 21px; }
+            .hero-image { min-height: 170px; grid-row: 1; background-position: center 48%; } .player-grid { grid-template-columns: 1fr; } .player { min-height: 90px; }
+            .fact-strip { grid-template-columns: 1fr; } .fact { border-right: 0; border-bottom: 1px solid #c8ccd1; } .fact:last-child { border-bottom: 0; }
+            .wiki-box { align-items: flex-start; flex-direction: column; } .article-tabs { font-size: 12px; } .tab-group { gap: 12px; } footer { padding: 15px 14px 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
+    </style>
+</head>
+<body>
+    <div class="topline" aria-hidden="true"></div>
+    <header class="masthead">
+        <a class="brand" href="#top" aria-label="Crikipedia home"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">Crikipedia</span><span class="brand-tag">The open guide to Indian cricket</span></span></a>
+        <div class="mast-tools"><span>From the boundary to the record books</span><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Visit Wikipedia ↗</a></div>
+    </header>
+    <div class="page" id="top">
+        <div class="layout">
+            <aside class="sidebar" aria-label="Page navigation">
+                <h2 class="sidebar-title">Explore Crikipedia</h2>
+                <nav><a class="active" href="#overview">Overview</a><a href="#players">Players</a><a href="#formats">The formats</a><a href="#legacy">Legacy</a><a href="#sources">Sources</a></nav>
+                <div class="side-note">A fan-made starting point for discovering India's cricket stories. Links open related articles on Wikipedia.</div>
+            </aside>
+            <main>
+                <div class="article-head">
+                    <div class="eyebrow">Featured topic · India</div><h1 id="overview">Indian cricket</h1>
+                    <p class="subtitle">Players, milestones and the game that brings a nation together</p>
+                    <div class="article-tabs" aria-label="Article tools"><div class="tab-group"><a class="selected" href="#overview">Article</a><a href="#players">Read</a></div><div class="tab-group"><a href="#sources">References</a><a href="https://en.wikipedia.org/wiki/Indian_national_cricket_team" target="_blank" rel="noopener noreferrer">Wikipedia ↗</a></div></div>
+                </div>
+                <article class="article-body">
+                    <section class="hero" aria-label="Featured Indian cricket story">
+                        <div class="hero-copy"><span class="hero-kicker">A game, a billion stories</span><h2>India's cricket story is still being written.</h2><p>Meet the players, revisit the defining moments, and explore every format of the game.</p><a class="hero-link" href="#players">Explore the players ↓</a></div>
+                        <div class="hero-image" role="img" aria-label="Cricket ground ready for a match"></div>
+                    </section>
+                    <p class="intro"><strong>Cricket in India</strong> is followed across generations, regions and languages. From packed stadiums and neighborhood grounds to the national team's biggest days, the game has grown into a defining part of the country's sporting life. This guide is a jumping-off point for some of its best-known players and moments.</p>
+                    <nav class="contents" aria-label="Contents"><h3>Contents</h3><ol><li><a href="#players">Notable players</a></li><li><a href="#formats">The formats</a></li><li><a href="#legacy">A lasting legacy</a></li></ol></nav>
+                    <section class="section" id="players">
+                        <h2>Notable Indian cricketers</h2><p>Search this quick index, then follow a player's Wikipedia link for a deeper biography, career timeline and statistics.</p>
+                        <div class="search-row"><label for="player-search">Find a player</label><input id="player-search" type="search" placeholder="Try “Kohli” or “captain”" autocomplete="off"></div>
+                        <div class="player-grid" id="player-grid">
+                            <article class="player" data-search="sachin tendulkar master blaster batter mumbai"><span class="player-initial" aria-hidden="true">ST</span><div><h3>Sachin Tendulkar</h3><p>Iconic batter · Mumbai</p><a href="https://en.wikipedia.org/wiki/Sachin_Tendulkar" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="virat kohli batter captain delhi modern era"><span class="player-initial" aria-hidden="true">VK</span><div><h3>Virat Kohli</h3><p>Top-order batter · Former captain</p><a href="https://en.wikipedia.org/wiki/Virat_Kohli" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="ms dhoni mahendra singh wicketkeeper captain ranchi"><span class="player-initial" aria-hidden="true">MS</span><div><h3>MS Dhoni</h3><p>Wicketkeeper · World Cup-winning captain</p><a href="https://en.wikipedia.org/wiki/MS_Dhoni" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="mithali raj batter captain women's cricket"><span class="player-initial" aria-hidden="true">MR</span><div><h3>Mithali Raj</h3><p>Batter · Former India women's captain</p><a href="https://en.wikipedia.org/wiki/Mithali_Raj" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="jhulan goswami fast bowler women's cricket"><span class="player-initial" aria-hidden="true">JG</span><div><h3>Jhulan Goswami</h3><p>Fast bowler · India women's team</p><a href="https://en.wikipedia.org/wiki/Jhulan_Goswami" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="kapil dev all-rounder captain 1983 world cup"><span class="player-initial" aria-hidden="true">KD</span><div><h3>Kapil Dev</h3><p>All-rounder · 1983 World Cup captain</p><a href="https://en.wikipedia.org/wiki/Kapil_Dev" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="rohit sharma batter captain mumbai"><span class="player-initial" aria-hidden="true">RS</span><div><h3>Rohit Sharma</h3><p>Opening batter · India captain</p><a href="https://en.wikipedia.org/wiki/Rohit_Sharma" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="rahul dravid batter coach wall bengaluru"><span class="player-initial" aria-hidden="true">RD</span><div><h3>Rahul Dravid</h3><p>Batter · Former India head coach</p><a href="https://en.wikipedia.org/wiki/Rahul_Dravid" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                            <article class="player" data-search="smriti mandhana batter women's cricket"><span class="player-initial" aria-hidden="true">SM</span><div><h3>Smriti Mandhana</h3><p>Opening batter · India women's team</p><a href="https://en.wikipedia.org/wiki/Smriti_Mandhana" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
+                        </div>
+                        <p class="no-results" id="no-results" aria-live="polite">No players match that search. Try another name or role.</p>
+                    </section>
+                    <section class="section" id="formats">
+                        <h2>The formats</h2><p>India competes internationally in all three major formats. Each asks a different question of a team: endurance over several days, adaptability over an innings, or nerve in a sprint.</p>
+                        <div class="fact-strip"><div class="fact"><strong>Test</strong><span>Five-day cricket; patience and technique</span></div><div class="fact"><strong>ODI</strong><span>One-day internationals; 50 overs a side</span></div><div class="fact"><strong>T20I</strong><span>Twenty20 internationals; 20 overs a side</span></div></div>
+                        <p>Explore the <a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">India men's national cricket team</a> and the <a href="https://en.wikipedia.org/wiki/India_women%27s_national_cricket_team" target="_blank" rel="noopener noreferrer">India women's national cricket team</a> on Wikipedia.</p>
+                    </section>
+                    <section class="section" id="legacy">
+                        <h2>A lasting legacy</h2><p>India's international cricket history stretches from its first Test in 1932 to a modern era shared by men's and women's teams, domestic competitions and a vast community of supporters. Historic achievements have helped shape the game's global landscape.</p>
+                        <blockquote class="quote">“The game belongs to everyone who picks up a bat, a ball, or a team to believe in.”</blockquote>
+                        <p>Read more about <a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">cricket in India</a>, the <a href="https://en.wikipedia.org/wiki/Board_of_Control_for_Cricket_in_India" target="_blank" rel="noopener noreferrer">Board of Control for Cricket in India</a>, or the <a href="https://en.wikipedia.org/wiki/History_of_cricket_in_India" target="_blank" rel="noopener noreferrer">history of cricket in India</a>.</p>
+                    </section>
+                    <section class="section" id="sources"><h2>References and further reading</h2><div class="wiki-box"><p><strong>Want the full encyclopedia article?</strong><br>Crikipedia is an independent fan-made guide. Visit Wikipedia for citations, detailed statistics and article histories.</p><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Open Cricket in India on Wikipedia ↗</a></div></section>
+                </article>
+            </main>
+        </div>
+    </div>
+    <footer><div>Text and player descriptions are a short introduction. Crikipedia is not affiliated with Wikipedia or any cricket board.</div><nav aria-label="Footer links"><a href="#top">Back to top ↑</a><a href="https://en.wikipedia.org/wiki/Portal:Cricket" target="_blank" rel="noopener noreferrer">Wikipedia Cricket Portal ↗</a><a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">India team on Wikipedia ↗</a></nav></footer>
+    <script>
+        const searchInput = document.querySelector('#player-search');
+        const players = [...document.querySelectorAll('.player')];
+        const noResults = document.querySelector('#no-results');
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+            players.forEach((player) => {
+                const matches = player.dataset.search.includes(query);
+                player.hidden = !matches;
+                if (matches) visibleCount += 1;
+            });
+            noResults.style.display = visibleCount ? 'none' : 'block';
+        });
+    </script>
+</body>
+</html>
