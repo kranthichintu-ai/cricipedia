@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fan-made guide to the players, records and stories of Indian cricket.">
-    <title>Crikipedia | cgeuvg Indian cricket, documented</title>
+    <title>Crikipedia | Indian cricket, documented</title>
     <style>
-        :root { color-scheme: light; --ink: #202122; --muted: #54595d; --paper: #fff; --canvas: #f8f9fa; --link: #0645ad; --green: #176b4d; --gold: #f4c453; --serif: Georgia, "Times New Roman", serif; --sans: "Segoe UI", Tahoma, sans-serif; }
+        :root { color-scheme: light; --ink: #172a22; --muted: #5e7167; --paper: #fffefa; --canvas: #f1f4ef; --link: #116443; --green: #176b4d; --forest: #123e32; --gold: #e9bd52; --coral: #c9543b; --line: #d7e0d8; --serif: Georgia, "Times New Roman", serif; --sans: "Trebuchet MS", "Segoe UI", sans-serif; }
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { margin: 0; color: var(--ink); background: var(--canvas); font: 15px/1.65 var(--sans); }
@@ -56,15 +56,55 @@
         .section p { max-width: 890px; margin: 8px 0; }
         .player-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
         .player { display: flex; min-height: 116px; gap: 12px; align-items: center; border: 1px solid #c8ccd1; padding: 13px; background: #fff; transition: border-color .18s, transform .18s; }
-        .player:hover { border-color: var(--green); transform: translateY(-2px); }
+        .player:hover { border-color: var(--green); }
         .player-initial { flex: 0 0 52px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: #eaf3ee; color: var(--green); font: 20px var(--serif); }
         .player h3 { font-size: 17px; line-height: 1.2; margin: 0 0 4px; }
         .player p { color: var(--muted); font-size: 12px; line-height: 1.4; margin: 0; }
         .player a { font-size: 12px; }
+        .favourites { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 17px; }
+        .favourite-card { display: grid; grid-template-columns: minmax(96px, 34%) minmax(0, 1fr); align-items: start; min-width: 0; overflow: hidden; border: 1px solid #c8ccd1; background: #fff; }
+        .favourite-photo { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: linear-gradient(135deg, #eaf3ee, #f4ead0); }
+        .favourite-photo img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: var(--portrait-position, center 18%); }
+        .photo-fallback { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; color: var(--green); font: 76px var(--serif); }
+        .photo-fallback[hidden] { display: none; }
+        .favourite-details { min-width: 0; padding: 14px 15px; }
+        .favourite-role { color: var(--green); text-transform: uppercase; letter-spacing: 1px; font-size: 10px; font-weight: 700; }
+        .favourite-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+        .favourite-card-heading h3 { min-width: 0; }
+        .favourite-card .player-actions { gap: 6px; padding: 0; }
+        .favourite-details h3 { margin: 3px 0 2px; font-size: 21px; line-height: 1.2; }
+        .favourite-team { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
+        .record-grid { display: grid; grid-template-columns: 1fr; margin-top: 8px; border-top: 1px solid var(--line); }
+        .record { min-width: 0; padding: 7px 0; border-bottom: 1px solid var(--line); }
+        .record strong { display: block; color: var(--green); font: 22px/1.1 var(--serif); }
+        .record span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+        .record-note { margin: 10px 0 0; color: var(--muted); font-size: 11px; }
+        .favourite-link { display: inline-block; margin-top: 8px; font-size: 12px; }
         .search-row { display: flex; align-items: center; gap: 10px; margin: 12px 0 3px; }
         .search-row label { font-size: 13px; font-weight: 600; }
         .search-row input { width: min(100%, 330px); border: 1px solid #72777d; border-radius: 2px; padding: 8px 10px; background: #fff; }
         .search-row input:focus { outline: 2px solid #36c; outline-offset: 1px; }
+        .directory-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin: 10px 0 5px; }
+        .directory-filters label, .form-field { display: grid; gap: 4px; color: var(--muted); font-size: 11px; font-weight: 700; }
+        .directory-filters select, .form-field input { min-width: 142px; min-height: 38px; padding: 7px 9px; border: 1px solid #aab9ae; border-radius: 3px; color: var(--ink); background: white; font: 13px var(--sans); }
+        .account-controls { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+        .account-controls button, .account-controls a { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 7px 10px; border: 1px solid #77988a; border-radius: 3px; color: #fff; background: transparent; font: 12px var(--sans); cursor: pointer; }
+        .account-controls #auth-button { border-color: var(--gold); color: var(--forest); background: var(--gold); font-weight: 700; }
+        .backend-status { max-width: 1320px; margin: 8px auto 0; padding: 7px 12px; color: var(--forest); background: #e8f0e8; font-size: 12px; }
+        .backend-status.is-error { color: #8f251b; background: #fff0ed; }
+        .auth-dialog { width: min(440px, calc(100vw - 28px)); max-width: none; padding: 0; border: 1px solid #aab9ae; border-radius: 4px; background: var(--paper); color: var(--ink); }
+        .auth-dialog::backdrop { background: rgb(12 31 23 / 68%); }
+        .auth-dialog-inner { padding: 22px; }
+        .auth-dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+        .auth-dialog-header h2 { margin: 3px 0 0; font: 28px/1.2 var(--serif); }
+        .auth-dialog form { display: grid; gap: 12px; }
+        .auth-dialog input { width: 100%; }
+        .auth-dialog button { cursor: pointer; }
+        .auth-message { padding: 9px 10px; border-radius: 3px; color: var(--forest); background: #e8f0e8; font-size: 12px; }
+        .auth-message.is-error { color: #8f251b; background: #fff0ed; }
+        .auth-links { display: flex; flex-wrap: wrap; gap: 8px 15px; font-size: 12px; }
+        .auth-submit { min-height: 42px; border: 0; border-radius: 3px; color: var(--forest); background: var(--gold); font: 700 13px var(--sans); }
+        .is-hidden { display: none !important; }
         .no-results { display: none; color: var(--muted); font-style: italic; padding: 12px 0; }
         .fact-strip { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #c8ccd1; margin: 16px 0; }
         .fact { padding: 14px 16px; border-right: 1px solid #c8ccd1; }
@@ -77,7 +117,7 @@
         .wiki-box a { flex: 0 0 auto; }
         footer { padding-top: 18px; padding-bottom: 28px; color: var(--muted); font-size: 12px; }
         footer nav { display: flex; flex-wrap: wrap; gap: 18px; padding-top: 8px; }
-        @media (max-width: 900px) { .layout { grid-template-columns: 175px minmax(0, 1fr); gap: 18px; } .masthead, .page, footer { padding-left: 20px; padding-right: 20px; } .article-head, .article-body { padding-left: 22px; padding-right: 22px; } .player-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 900px) { .layout { grid-template-columns: 175px minmax(0, 1fr); gap: 18px; } .masthead, .page, footer { padding-left: 20px; padding-right: 20px; } .article-head, .article-body { padding-left: 22px; padding-right: 22px; } .player-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .favourites { grid-template-columns: 1fr; } }
         @media (max-width: 650px) {
             .masthead { padding: 17px 14px 14px; } .brand-name { font-size: 27px; } .mast-tools { display: none; } .page { padding: 0 10px 26px; }
             .layout { display: block; } .sidebar { position: static; margin-bottom: 10px; padding: 9px 11px; } .sidebar-title, .side-note { display: none; }
@@ -88,80 +128,429 @@
             .wiki-box { align-items: flex-start; flex-direction: column; } .article-tabs { font-size: 12px; } .tab-group { gap: 12px; } footer { padding: 15px 14px 24px; }
         }
         @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
+        .topline { position: relative; z-index: 20; background: linear-gradient(90deg, #176b4d 0 34%, #fffefa 34% 67%, #e9bd52 67%); }
+        .masthead { position: sticky; top: 0; z-index: 15; max-width: none; min-height: 76px; padding: 12px max(24px, calc((100vw - 1320px) / 2)); background: var(--forest); color: #fffefa; box-shadow: 0 8px 22px rgb(18 62 50 / 14%); }
+        .brand { color: #fffefa; flex: 0 0 auto; }
+        .brand-mark { background: var(--gold); color: var(--forest); border-radius: 12px 12px 12px 3px; }
+        .brand-name { font-size: 29px; }
+        .brand-tag { color: #d5e3da; }
+        .site-nav { display: flex; align-items: center; gap: 4px; }
+        .site-nav a { padding: 8px 10px; color: #eff6f0; font-size: 13px; white-space: nowrap; border-radius: 3px; transition: background .18s, color .18s; }
+        .site-nav a:hover, .site-nav a.active { color: #fff; background: rgb(255 255 255 / 13%); text-decoration: none; }
+        .site-nav a.active { box-shadow: inset 0 -2px var(--gold); }
+        .mast-tools { flex: 0 0 auto; gap: 10px; }
+        .mast-tools a { color: var(--gold); font-weight: 700; white-space: nowrap; }
+        .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid #77988a; border-radius: 3px; background: transparent; color: white; font-size: 22px; cursor: pointer; }
+        .page { max-width: 1320px; padding-top: 28px; }
+        .layout { display: block; }
+        .sidebar { display: none; }
+        main { border: 0; background: transparent; }
+        .article-head { display: none; }
+        .article-body { padding: 0 0 42px; }
+        .hero { min-height: 445px; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); background: var(--forest); border-radius: 4px; box-shadow: 0 18px 40px rgb(18 62 50 / 13%); }
+        .hero-copy { padding: 48px clamp(28px, 5vw, 68px); }
+        .hero h1 { margin: 8px 0 14px; font: 400 56px/1.04 var(--serif); letter-spacing: 0; color: white; }
+        .hero-kicker { color: var(--gold); }
+        .hero p { max-width: 470px; font-size: 17px; }
+        .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+        .hero-link, .hero-secondary { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 15px; border: 1px solid var(--gold); border-radius: 3px; color: var(--forest); background: var(--gold); font-weight: 700; text-decoration: none; }
+        .hero-secondary { color: white; border-color: #a9c4b6; background: transparent; }
+        .hero-link:hover, .hero-secondary:hover { text-decoration: none; transform: translateY(-1px); }
+        .hero-image { min-height: 445px; background: linear-gradient(90deg, var(--forest) 0%, rgb(18 62 50 / 10%) 38%, transparent 100%), url("https://images.unsplash.com/photo-1741776522016-e79a6d0e66fb?auto=format&fit=crop&w=1600&q=88") center 48% / cover; }
+        .eyebrow, .hero-kicker, .favourite-role { letter-spacing: 0; }
+        .intro { max-width: 900px; margin: 28px auto 32px; font-size: 17px; }
+        .contents { border: 0; border-left: 3px solid var(--gold); border-radius: 0 3px 3px 0; background: #e5eee7; padding: 13px 18px; }
+        .section { scroll-margin-top: 100px; margin: 0 0 46px; }
+        .section h2 { font-size: 32px; border-bottom-color: var(--line); }
+        .player, .favourite-card { border-color: var(--line); border-radius: 3px; box-shadow: 0 5px 18px rgb(23 42 34 / 5%); }
+        .player { min-height: 136px; padding: 16px; }
+        .player:hover, .favourite-card:hover { box-shadow: 0 12px 26px rgb(23 42 34 / 10%); }
+        .player-initial { border-radius: 13px 13px 13px 3px; background: #e4efe7; }
+        .favourite-photo { aspect-ratio: 4 / 5; background: #e4efe7; }
+        .favourite-details { padding: 19px; }
+        .favourite-details h3 { font-size: 23px; }
+        .record strong, .fact strong { color: var(--green); }
+        .fact-strip { overflow: hidden; border-color: var(--line); border-radius: 3px; background: var(--paper); }
+        .fact { border-color: var(--line); }
+        .quote { border-left-color: var(--coral); background: #fbf2e4; padding: 14px 18px; }
+        .wiki-box { border-color: var(--line); border-left: 3px solid var(--green); border-radius: 3px; background: #eaf1eb; }
+        footer { max-width: none; padding: 30px max(24px, calc((100vw - 1320px) / 2)); background: var(--forest); color: #d5e3da; }
+        footer a { color: var(--gold); }
+        .spotlight-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 28px 0 32px; }
+        .spotlight { position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: center; min-width: 0; padding: 14px; border-radius: 3px; color: #fff; background: var(--forest); }
+        .spotlight:nth-child(2) { color: var(--ink); background: #f1dfae; }
+        .spotlight:nth-child(3) { background: #a94734; }
+        .spotlight img { width: 72px; height: 84px; object-fit: cover; object-position: center 25%; border-radius: 2px; }
+        .spotlight h3 { margin: 0; font-size: 18px; line-height: 1.15; }
+        .spotlight p { margin: 5px 0 0; color: inherit; font-size: 11px; line-height: 1.4; opacity: .84; }
+        .spotlight a { position: absolute; inset: 0; overflow: hidden; text-indent: -999px; }
+        .player { position: relative; display: block; padding: 0; overflow: hidden; }
+        .player-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .player-photo { width: 100%; height: auto; aspect-ratio: 4 / 5; display: block; object-fit: cover; object-position: var(--portrait-position, center 18%); background: linear-gradient(135deg, #e4efe7, #f1dfae); }
+        .favourite-photo img, .profile-photo img { opacity: 0; transition: opacity .18s ease; }
+        .favourite-photo img.is-loaded, .profile-photo img.is-loaded { opacity: 1; }
+        .player-info { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 13px; }
+        .player-initial { display: none; }
+        .player-info-copy { min-width: 0; }
+        .player-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 13px 13px; }
+        .player-action { min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--forest); background: #fffefa; font: 12px var(--sans); cursor: pointer; }
+        .player-action:hover { border-color: var(--green); background: #eaf1eb; }
+        .favourite-toggle { flex: 0 0 38px; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: #fffefa; font: 21px/1 var(--sans); cursor: pointer; }
+        .favourite-toggle[aria-pressed="true"] { color: #b42318; border-color: #d89086; background: #fff4f1; }
+        .format-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 17px; }
+        .format-card { position: relative; min-height: 265px; display: flex; align-items: end; overflow: hidden; border-radius: 3px; color: white; background: var(--forest); }
+        .format-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(12 31 23 / 92%), rgb(12 31 23 / 5%) 82%), var(--format-image) center / cover; transition: transform .3s; }
+        .format-card:hover::before { transform: scale(1.04); }
+        .format-card-copy { position: relative; z-index: 1; padding: 19px; }
+        .format-card h3 { margin: 0 0 5px; font-size: 24px; }
+        .format-card p { margin: 0; color: #e8f0eb; font-size: 13px; }
+        .milestone-list { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 25px; margin: 22px 0; }
+        .milestone-list::before { content: ""; position: absolute; top: 8px; bottom: 8px; left: 50%; width: 1px; background: var(--line); }
+        .milestone { position: relative; padding: 0 18px 22px 0; }
+        .milestone:nth-child(even) { padding: 0 0 22px 22px; }
+        .milestone time { display: block; margin-bottom: 4px; color: var(--coral); font: 700 13px var(--sans); }
+        .milestone h3 { margin: 0 0 4px; font-size: 20px; }
+        .milestone p { margin: 0; color: var(--muted); font-size: 13px; }
+        .source-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+        .source-card { padding: 16px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); }
+        .source-card h3 { margin: 0 0 4px; font-size: 18px; }
+        .source-card p { margin: 0 0 8px; color: var(--muted); font-size: 12px; }
+        .source-card a { font-size: 12px; font-weight: 700; }
+        .search-row input { border-color: #aab9ae; border-radius: 3px; padding: 10px 12px; }
+        .search-row input:focus-visible { outline-color: var(--green); }
+        .contents { border-radius: 3px; }
+        .player-action:focus-visible, .favourite-toggle:focus-visible, .menu-toggle:focus-visible, .hero-link:focus-visible, .hero-secondary:focus-visible, .profile-close:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+        .favourite-empty { grid-column: 1 / -1; padding: 42px 20px; border: 1px dashed #aab9ae; border-radius: 3px; text-align: center; background: #eaf1eb; }
+        .favourite-empty h3 { margin: 6px 0; font-size: 23px; }
+        .favourite-empty p { margin: 0 0 15px; color: var(--muted); }
+        .favourite-endcap { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding: 17px 20px; border-left: 3px solid var(--gold); border-radius: 0 3px 3px 0; background: #f1dfae; }
+        .favourite-endcap p { margin: 0; color: var(--forest); font: 20px var(--serif); }
+        .favourite-endcap a { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 13px; border-radius: 3px; color: white; background: var(--forest); font-size: 13px; font-weight: 700; }
+        .favourite-endcap a:hover { text-decoration: none; background: #1c5945; }
+        .site-footer { max-width: none; padding: 30px max(24px, calc((100vw - 1320px) / 2)) 18px; color: #d5e3da; background: var(--forest); }
+        .footer-inner { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 2fr); gap: 16px 40px; max-width: 1320px; margin: 0 auto; }
+        .site-footer .brand { width: fit-content; color: white; }
+        .site-footer .brand-tag { color: #d5e3da; }
+        .footer-description { max-width: 360px; margin: 10px 0 0; color: #d5e3da; font-size: 12px; }
+        .footer-nav { display: flex; align-content: start; justify-content: flex-end; flex-wrap: wrap; gap: 8px 17px; padding-top: 8px; }
+        .footer-nav a, .footer-external a { color: var(--gold); font-size: 12px; }
+        .footer-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; padding-top: 13px; border-top: 1px solid rgb(255 255 255 / 18%); color: #c0d2c7; font-size: 11px; }
+        .footer-external { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+        .profile-dialog { width: min(940px, calc(100vw - 28px)); max-width: none; max-height: 88vh; padding: 0; border: 1px solid #aab9ae; border-radius: 4px; color: var(--ink); background: var(--paper); }
+        .profile-dialog::backdrop { background: rgb(12 31 23 / 68%); }
+        .profile-dialog-inner { max-height: 88vh; overflow-y: auto; padding: 22px; }
+        .profile-dialog-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+        .profile-dialog-header h2 { margin: 3px 0 0; font: 32px/1.15 var(--serif); }
+        .profile-dialog-actions { display: flex; align-items: center; gap: 8px; }
+        .profile-close { flex: 0 0 38px; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: white; font: 22px/1 var(--sans); cursor: pointer; }
+        .profile-overview { display: grid; grid-template-columns: 175px minmax(0, 1fr); gap: 20px; padding: 18px 0; }
+        .profile-photo { position: relative; height: auto; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 3px; background: #e4efe7; }
+        .profile-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--portrait-position, center 18%); }
+        .profile-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 0 18px; margin: 0; }
+        .profile-facts div { padding: 8px 0; border-bottom: 1px solid #e8eee8; }
+        .profile-facts dt { color: var(--muted); font-size: 11px; }
+        .profile-facts dd { margin: 2px 0 0; font-size: 13px; font-weight: 700; }
+        .profile-section { margin-top: 18px; }
+        .profile-section h3 { margin: 0 0 8px; font-size: 21px; }
+        .profile-table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; }
+        .profile-table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 12px; }
+        .profile-table th, .profile-table td { padding: 8px 9px; border-bottom: 1px solid #e8eee8; text-align: right; }
+        .profile-table thead { background: #eaf1eb; }
+        .profile-table th:first-child, .profile-table td:first-child { text-align: left; }
+        .profile-source { margin: 12px 0 0; color: var(--muted); font-size: 11px; }
+        @media (max-width: 520px) { .profile-overview { grid-template-columns: 105px minmax(0, 1fr); gap: 12px; } .profile-photo { height: 130px; } .profile-dialog-inner { padding: 15px; } .profile-facts { grid-template-columns: 1fr; } .profile-dialog-header h2 { font-size: 25px; } }
+        @media (max-width: 1050px) {
+            .masthead { padding-left: 22px; padding-right: 22px; gap: 12px; }
+            .mast-tools { display: none; }
+            .site-nav { gap: 0; }
+            .site-nav a { padding-left: 8px; padding-right: 8px; }
+            .player-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .account-controls .account-label { display: none; }
+        }
+        @media (max-width: 900px) {
+            .player-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 760px) {
+            .masthead { min-height: 68px; flex-wrap: wrap; padding: 10px 16px; }
+            .brand-name { font-size: 26px; }
+            .menu-toggle { display: grid; place-items: center; margin-left: auto; }
+            .account-controls { order: 2; }
+            .account-controls button, .account-controls a { min-width: 40px; padding: 7px; }
+            .site-nav { display: none; order: 3; flex: 1 0 100%; align-items: stretch; flex-direction: column; padding: 8px 0 4px; }
+            .site-nav.is-open { display: flex; }
+            .site-nav a { padding: 10px 12px; }
+            .page { padding: 16px 14px 24px; }
+            .hero { grid-template-columns: 1fr; }
+            .hero-copy { padding: 32px 25px; }
+            .hero h1 { font-size: 42px; }
+            .hero-image { min-height: 230px; grid-row: 1; background-position: center 48%; }
+            .intro { font-size: 15px; }
+            .section h2 { font-size: 28px; }
+            .player-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .spotlight-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 520px) {
+            .player-grid, .favourites { grid-template-columns: 1fr; }
+            .player { min-height: 104px; }
+            .player-photo, .favourite-photo { aspect-ratio: 4 / 5; }
+            .format-grid, .source-grid, .milestone-list { grid-template-columns: 1fr; }
+            .milestone-list::before { left: 5px; }
+            .milestone, .milestone:nth-child(even) { padding: 0 0 20px 22px; }
+            .fact-strip { grid-template-columns: 1fr; }
+            .fact { border-right: 0; border-bottom: 1px solid var(--line); }
+            .fact:last-child { border-bottom: 0; }
+            .article-tabs { flex-wrap: wrap; gap: 2px 16px; }
+            .wiki-box { align-items: flex-start; flex-direction: column; }
+            .favourite-endcap { align-items: flex-start; flex-direction: column; }
+            .footer-inner { grid-template-columns: 1fr; gap: 14px; }
+            .footer-nav { justify-content: flex-start; padding-top: 0; }
+            .footer-bottom { grid-column: auto; }
+        }
     </style>
 </head>
 <body>
     <div class="topline" aria-hidden="true"></div>
     <header class="masthead">
         <a class="brand" href="#top" aria-label="Crikipedia home"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">Crikipedia</span><span class="brand-tag">The open guide to Indian cricket</span></span></a>
-        <div class="mast-tools"><span>From the boundary to the record books</span><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Visit Wikipedia ↗</a></div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">☰</button>
+        <nav class="site-nav" id="site-nav" aria-label="Main navigation"><a class="active" href="#overview">Overview</a><a href="#players">Players</a><a href="#favourites">Favourite Cricketers</a><a href="#formats">Formats</a><a href="#legacy">Legacy</a><a href="#sources">Sources</a></nav>
+        <div class="account-controls"><a id="admin-link" class="is-hidden" href="admin.html">Admin</a><button id="auth-button" type="button">Sign in</button><button id="logout-button" class="is-hidden" type="button">Sign out</button></div>
+        <div class="mast-tools"><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Cricket in India ↗</a></div>
     </header>
+    <p id="backend-status" class="backend-status" role="status" hidden></p>
     <div class="page" id="top">
         <div class="layout">
-            <aside class="sidebar" aria-label="Page navigation">
-                <h2 class="sidebar-title">Explore Crikipedia</h2>
-                <nav><a class="active" href="#overview">Overview</a><a href="#players">Players</a><a href="#formats">The formats</a><a href="#legacy">Legacy</a><a href="#sources">Sources</a></nav>
-                <div class="side-note">A fan-made starting point for discovering India's cricket stories. Links open related articles on Wikipedia.</div>
-            </aside>
             <main>
-                <div class="article-head">
-                    <div class="eyebrow">Featured topic · India</div><h1 id="overview">Indian cricket</h1>
-                    <p class="subtitle">Players, milestones and the game that brings a nation together</p>
-                    <div class="article-tabs" aria-label="Article tools"><div class="tab-group"><a class="selected" href="#overview">Article</a><a href="#players">Read</a></div><div class="tab-group"><a href="#sources">References</a><a href="https://en.wikipedia.org/wiki/Indian_national_cricket_team" target="_blank" rel="noopener noreferrer">Wikipedia ↗</a></div></div>
-                </div>
                 <article class="article-body">
                     <section class="hero" aria-label="Featured Indian cricket story">
-                        <div class="hero-copy"><span class="hero-kicker">A game, a billion stories</span><h2>India's cricket story is still being written.</h2><p>Meet the players, revisit the defining moments, and explore every format of the game.</p><a class="hero-link" href="#players">Explore the players ↓</a></div>
+                        <div class="hero-copy"><span class="hero-kicker">Indian cricket · players · history</span><h1 id="overview">India's Cricket Story, Beyond the Boundary.</h1><p>Meet the players, revisit defining moments, and explore the records behind the game.</p><div class="hero-actions"><a class="hero-link" href="#players">Explore Players <span aria-hidden="true">→</span></a><a class="hero-secondary" href="#formats">Discover Cricket Records <span aria-hidden="true">→</span></a></div></div>
                         <div class="hero-image" role="img" aria-label="Cricket ground ready for a match"></div>
                     </section>
                     <p class="intro"><strong>Cricket in India</strong> is followed across generations, regions and languages. From packed stadiums and neighborhood grounds to the national team's biggest days, the game has grown into a defining part of the country's sporting life. This guide is a jumping-off point for some of its best-known players and moments.</p>
-                    <nav class="contents" aria-label="Contents"><h3>Contents</h3><ol><li><a href="#players">Notable players</a></li><li><a href="#formats">The formats</a></li><li><a href="#legacy">A lasting legacy</a></li></ol></nav>
+                    <section class="spotlight-grid" aria-label="Featured Indian cricketers">
+                        <article class="spotlight"><img data-wikipedia-image="Sachin_Tendulkar" alt="" loading="lazy"><div><h3>Sachin Tendulkar</h3><p>100 international centuries · 34,357 runs</p></div><a href="#favourites" aria-label="Explore Sachin Tendulkar's profile">Explore Sachin Tendulkar</a></article>
+                        <article class="spotlight"><img data-wikipedia-image="Virat_Kohli" alt="" loading="lazy"><div><h3>Virat Kohli</h3><p>86 international centuries · 28,498 runs</p></div><a href="#favourites" aria-label="Explore Virat Kohli's profile">Explore Virat Kohli</a></article>
+                        <article class="spotlight"><img data-wikipedia-image="Anil_Kumble" alt="" loading="lazy"><div><h3>Anil Kumble</h3><p>956 international wickets · best Test figures 10/74</p></div><a href="#favourites" aria-label="Explore Anil Kumble's profile">Explore Anil Kumble</a></article>
+                    </section>
+                    <nav class="contents" aria-label="Contents"><h3>Contents</h3><ol><li><a href="#players">Notable players</a></li><li><a href="#favourites">Favourite cricketers</a></li><li><a href="#formats">The formats</a></li><li><a href="#legacy">A lasting legacy</a></li></ol></nav>
                     <section class="section" id="players">
                         <h2>Notable Indian cricketers</h2><p>Search this quick index, then follow a player's Wikipedia link for a deeper biography, career timeline and statistics.</p>
                         <div class="search-row"><label for="player-search">Find a player</label><input id="player-search" type="search" placeholder="Try “Kohli” or “captain”" autocomplete="off"></div>
-                        <div class="player-grid" id="player-grid">
-                            <article class="player" data-search="sachin tendulkar master blaster batter mumbai"><span class="player-initial" aria-hidden="true">ST</span><div><h3>Sachin Tendulkar</h3><p>Iconic batter · Mumbai</p><a href="https://en.wikipedia.org/wiki/Sachin_Tendulkar" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="virat kohli batter captain delhi modern era"><span class="player-initial" aria-hidden="true">VK</span><div><h3>Virat Kohli</h3><p>Top-order batter · Former captain</p><a href="https://en.wikipedia.org/wiki/Virat_Kohli" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="ms dhoni mahendra singh wicketkeeper captain ranchi"><span class="player-initial" aria-hidden="true">MS</span><div><h3>MS Dhoni</h3><p>Wicketkeeper · World Cup-winning captain</p><a href="https://en.wikipedia.org/wiki/MS_Dhoni" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="mithali raj batter captain women's cricket"><span class="player-initial" aria-hidden="true">MR</span><div><h3>Mithali Raj</h3><p>Batter · Former India women's captain</p><a href="https://en.wikipedia.org/wiki/Mithali_Raj" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="jhulan goswami fast bowler women's cricket"><span class="player-initial" aria-hidden="true">JG</span><div><h3>Jhulan Goswami</h3><p>Fast bowler · India women's team</p><a href="https://en.wikipedia.org/wiki/Jhulan_Goswami" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="kapil dev all-rounder captain 1983 world cup"><span class="player-initial" aria-hidden="true">KD</span><div><h3>Kapil Dev</h3><p>All-rounder · 1983 World Cup captain</p><a href="https://en.wikipedia.org/wiki/Kapil_Dev" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="rohit sharma batter captain mumbai"><span class="player-initial" aria-hidden="true">RS</span><div><h3>Rohit Sharma</h3><p>Opening batter · India captain</p><a href="https://en.wikipedia.org/wiki/Rohit_Sharma" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="rahul dravid batter coach wall bengaluru"><span class="player-initial" aria-hidden="true">RD</span><div><h3>Rahul Dravid</h3><p>Batter · Former India head coach</p><a href="https://en.wikipedia.org/wiki/Rahul_Dravid" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                            <article class="player" data-search="smriti mandhana batter women's cricket"><span class="player-initial" aria-hidden="true">SM</span><div><h3>Smriti Mandhana</h3><p>Opening batter · India women's team</p><a href="https://en.wikipedia.org/wiki/Smriti_Mandhana" target="_blank" rel="noopener noreferrer">Read on Wikipedia ↗</a></div></article>
-                        </div>
+                        <div class="directory-filters"><label>Country<select id="player-country"><option value="">All countries</option></select></label><label>Role<select id="player-role"><option value="">All roles</option></select></label><label>Sort<select id="player-sort"><option value="name">Name A–Z</option><option value="runs">Most verified runs</option><option value="wickets">Most verified wickets</option></select></label></div>
+                        <div class="player-grid" id="player-grid"></div>
                         <p class="no-results" id="no-results" aria-live="polite">No players match that search. Try another name or role.</p>
                     </section>
+                    <section class="section" id="favourites">
+                        <h2>Your favourite cricketers</h2><p>Add players from the directory and build a list that stays with this browser.</p>
+                        <div class="favourites" id="favourite-grid" aria-live="polite"></div>
+                        <div class="favourite-endcap"><p>Still discovering your favourites?</p><a href="#players">Discover More Players <span aria-hidden="true">→</span></a></div>
+                    </section>
                     <section class="section" id="formats">
-                        <h2>The formats</h2><p>India competes internationally in all three major formats. Each asks a different question of a team: endurance over several days, adaptability over an innings, or nerve in a sprint.</p>
-                        <div class="fact-strip"><div class="fact"><strong>Test</strong><span>Five-day cricket; patience and technique</span></div><div class="fact"><strong>ODI</strong><span>One-day internationals; 50 overs a side</span></div><div class="fact"><strong>T20I</strong><span>Twenty20 internationals; 20 overs a side</span></div></div>
+                        <h2>Three formats, one game</h2><p>India competes internationally in three formats, each rewarding a different balance of patience, adaptability and speed.</p>
+                        <div class="format-grid">
+                            <article class="format-card" style="--format-image: url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=82')"><div class="format-card-copy"><h3>Test cricket</h3><p>Five days of endurance, skill and shifting match situations.</p></div></article>
+                            <article class="format-card" style="--format-image: url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=900&q=82')"><div class="format-card-copy"><h3>One Day International</h3><p>Fifty overs a side, with room to build and accelerate.</p></div></article>
+                            <article class="format-card" style="--format-image: url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=900&q=82')"><div class="format-card-copy"><h3>Twenty20 International</h3><p>Twenty overs a side, where every phase can change the game.</p></div></article>
+                        </div>
                         <p>Explore the <a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">India men's national cricket team</a> and the <a href="https://en.wikipedia.org/wiki/India_women%27s_national_cricket_team" target="_blank" rel="noopener noreferrer">India women's national cricket team</a> on Wikipedia.</p>
                     </section>
                     <section class="section" id="legacy">
-                        <h2>A lasting legacy</h2><p>India's international cricket history stretches from its first Test in 1932 to a modern era shared by men's and women's teams, domestic competitions and a vast community of supporters. Historic achievements have helped shape the game's global landscape.</p>
-                        <blockquote class="quote">“The game belongs to everyone who picks up a bat, a ball, or a team to believe in.”</blockquote>
-                        <p>Read more about <a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">cricket in India</a>, the <a href="https://en.wikipedia.org/wiki/Board_of_Control_for_Cricket_in_India" target="_blank" rel="noopener noreferrer">Board of Control for Cricket in India</a>, or the <a href="https://en.wikipedia.org/wiki/History_of_cricket_in_India" target="_blank" rel="noopener noreferrer">history of cricket in India</a>.</p>
+                        <h2>A legacy still in motion</h2><p>From India's first Test appearance to global titles across generations, these milestones trace a few defining moments in the country's cricket story.</p>
+                        <div class="milestone-list">
+                            <article class="milestone"><time datetime="1932">1932</time><h3>India plays its first Test</h3><p>India makes its Test debut against England at Lord's.</p></article>
+                            <article class="milestone"><time datetime="1983">1983</time><h3>First men's World Cup title</h3><p>India wins the Cricket World Cup for the first time.</p></article>
+                            <article class="milestone"><time datetime="2007">2007</time><h3>T20 world champions</h3><p>India wins the inaugural ICC Men's T20 World Cup.</p></article>
+                            <article class="milestone"><time datetime="2011">2011</time><h3>World champions at home</h3><p>India wins the men's Cricket World Cup on home soil.</p></article>
+                            <article class="milestone"><time datetime="2024">2024</time><h3>Another T20 world title</h3><p>India wins the ICC Men's T20 World Cup.</p></article>
+                            <article class="milestone"><time datetime="2025">2025</time><h3>Champions Trophy winners</h3><p>India claims the ICC Champions Trophy.</p></article>
+                        </div>
+                        <p>Explore more about <a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">cricket in India</a>, the <a href="https://en.wikipedia.org/wiki/Board_of_Control_for_Cricket_in_India" target="_blank" rel="noopener noreferrer">Board of Control for Cricket in India</a>, or the <a href="https://en.wikipedia.org/wiki/History_of_cricket_in_India" target="_blank" rel="noopener noreferrer">history of cricket in India</a>.</p>
                     </section>
-                    <section class="section" id="sources"><h2>References and further reading</h2><div class="wiki-box"><p><strong>Want the full encyclopedia article?</strong><br>Crikipedia is an independent fan-made guide. Visit Wikipedia for citations, detailed statistics and article histories.</p><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Open Cricket in India on Wikipedia ↗</a></div></section>
+                    <section class="section" id="sources"><h2>Sources and further reading</h2><p>Start with these references for official records, player statistics and broader cricket history.</p><div class="source-grid"><article class="source-card"><h3>International Cricket Council</h3><p>International competitions, rankings and official cricket news.</p><a href="https://www.icc-cricket.com/" target="_blank" rel="noopener noreferrer">Visit ICC ↗</a></article><article class="source-card"><h3>ESPNcricinfo</h3><p>Player profiles, scorecards and searchable cricket records.</p><a href="https://www.espncricinfo.com/" target="_blank" rel="noopener noreferrer">Visit ESPNcricinfo ↗</a></article><article class="source-card"><h3>Cricket in India</h3><p>History, teams and the wider context of the game in India.</p><a href="https://en.wikipedia.org/wiki/Cricket_in_India" target="_blank" rel="noopener noreferrer">Open the overview ↗</a></article><article class="source-card"><h3>India national cricket teams</h3><p>Explore the men's and women's international teams.</p><a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">Men's team ↗</a> · <a href="https://en.wikipedia.org/wiki/India_women%27s_national_cricket_team" target="_blank" rel="noopener noreferrer">Women's team ↗</a></article></div></section>
                 </article>
             </main>
         </div>
     </div>
-    <footer><div>Text and player descriptions are a short introduction. Crikipedia is not affiliated with Wikipedia or any cricket board.</div><nav aria-label="Footer links"><a href="#top">Back to top ↑</a><a href="https://en.wikipedia.org/wiki/Portal:Cricket" target="_blank" rel="noopener noreferrer">Wikipedia Cricket Portal ↗</a><a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">India team on Wikipedia ↗</a></nav></footer>
+    <footer class="site-footer"><div class="footer-inner"><div><a class="brand" href="#top" aria-label="Crikipedia home"><span class="brand-mark" aria-hidden="true">C</span><span><span class="brand-name">Crikipedia</span><span class="brand-tag">The open guide to Indian cricket</span></span></a><p class="footer-description">A fan-made guide to India's players, formats and cricket history.</p></div><nav class="footer-nav" aria-label="Footer section links"><a href="#overview">Overview</a><a href="#players">Players</a><a href="#favourites">Favourite Cricketers</a><a href="#formats">Formats</a><a href="#legacy">Legacy</a><a href="#sources">Sources</a></nav><div class="footer-bottom"><span>© <span id="footer-year"></span> Crikipedia · Independent fan guide</span><span class="footer-external"><a href="https://en.wikipedia.org/wiki/Portal:Cricket" target="_blank" rel="noopener noreferrer">Wikipedia Cricket Portal ↗</a><a href="https://en.wikipedia.org/wiki/India_national_cricket_team" target="_blank" rel="noopener noreferrer">India national team ↗</a></span></div></div></footer>
+    <dialog class="profile-dialog" id="profile-dialog" aria-labelledby="profile-title"><div class="profile-dialog-inner"><div class="profile-dialog-header"><div><span class="eyebrow">Player profile</span><h2 id="profile-title">Player</h2></div><div class="profile-dialog-actions"><button class="player-action" id="profile-favourite" type="button" data-favourite-id="" aria-pressed="false">Add favourite</button><button class="profile-close" type="button" aria-label="Close player profile">×</button></div></div><div id="profile-content"></div></div></dialog>
+    <dialog class="auth-dialog" id="auth-dialog" aria-labelledby="auth-title"><div class="auth-dialog-inner"><div class="auth-dialog-header"><div><span class="eyebrow">Crikipedia account</span><h2 id="auth-title">Welcome back</h2></div><button class="profile-close" id="auth-close" type="button" aria-label="Close account dialog">×</button></div><p class="auth-message" id="auth-message" role="status" hidden></p><form id="auth-form" data-mode="signin"><label class="form-field" id="auth-full-name-row" hidden>Full name<input id="auth-full-name" type="text" autocomplete="name"></label><label class="form-field">Email<input id="auth-email" type="email" required autocomplete="email"></label><label class="form-field" id="auth-password-row">Password<input id="auth-password" type="password" minlength="8" autocomplete="current-password" required></label><button class="auth-submit" id="auth-submit" type="submit">Sign in</button><div class="auth-links"><button id="auth-switch" type="button" data-mode="signup">Create an account</button><button id="auth-reset" type="button">Forgot password?</button></div></form><form id="profile-form" class="is-hidden"><label class="form-field">Full name<input id="profile-full-name" type="text" autocomplete="name"></label><label class="form-field">Avatar URL<input id="profile-avatar-url" type="url" autocomplete="url"></label><button class="auth-submit" type="submit">Save profile</button></form></div></dialog>
     <script>
         const searchInput = document.querySelector('#player-search');
-        const players = [...document.querySelectorAll('.player')];
         const noResults = document.querySelector('#no-results');
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.trim().toLowerCase();
-            let visibleCount = 0;
-            players.forEach((player) => {
-                const matches = player.dataset.search.includes(query);
-                player.hidden = !matches;
-                if (matches) visibleCount += 1;
+        const playerGrid = document.querySelector('#player-grid');
+        const favouriteGrid = document.querySelector('#favourite-grid');
+        const profileDialog = document.querySelector('#profile-dialog');
+        const profileContent = document.querySelector('#profile-content');
+        const profileFavourite = document.querySelector('#profile-favourite');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const siteNav = document.querySelector('#site-nav');
+        const storageKey = 'crikipedia-favourites';
+        const unavailable = 'N/A';
+        const formats = ['Test', 'ODI', 'T20I'];
+        const playerData = [
+            { id: 'sachin-tendulkar', name: 'Sachin Tendulkar', initials: 'ST', imagePage: 'Sachin_Tendulkar', search: 'sachin tendulkar master blaster batter mumbai india', role: 'Top-order batter', roleType: 'batter', country: 'India', flag: '🇮🇳', birth: '24 April 1973', batting: 'Right-handed', bowling: 'Leg break, off break and medium pace', asOf: 'Career ended 2013', source: 'https://en.wikipedia.org/wiki/Sachin_Tendulkar', featured: [['100', 'International centuries'], ['34,357', 'International runs']], battingStats: { Test: { matches: '200', innings: '329', runs: '15,921', highest: '248*', average: '53.78', strikeRate: '54.08', hundreds: '51', fifties: '68' }, ODI: { matches: '463', innings: '452', runs: '18,426', highest: '200*', average: '44.83', strikeRate: '86.23', hundreds: '49', fifties: '96' }, T20I: { matches: '1', innings: '1', runs: '10', highest: '10', average: '10.00', strikeRate: '83.33', hundreds: '0', fifties: '0' } } },
+            { id: 'virat-kohli', name: 'Virat Kohli', initials: 'VK', imagePage: 'Virat_Kohli', search: 'virat kohli batter captain delhi modern era india', role: 'Top-order batter', roleType: 'batter', country: 'India', flag: '🇮🇳', birth: '5 November 1988', batting: 'Right-handed', bowling: 'Right-arm medium', asOf: '28 September 2026', source: 'https://en.wikipedia.org/wiki/Virat_Kohli', featured: [['86', 'International centuries'], ['28,498', 'International runs']], battingStats: { Test: { matches: '123', runs: '9,230', highest: '254*', average: '46.85', hundreds: '30', fifties: '31' }, ODI: { matches: '315', runs: '15,080', highest: '183', average: '59.13', hundreds: '55', fifties: '79' }, T20I: { matches: '125', runs: '4,188', highest: '122*', average: '48.69', hundreds: '1', fifties: '38' } } },
+            { id: 'ms-dhoni', name: 'MS Dhoni', initials: 'MS', imagePage: 'MS_Dhoni', search: 'ms dhoni mahendra singh wicketkeeper captain ranchi india', role: 'Wicketkeeper-batter', roleType: 'batter', country: 'India', flag: '🇮🇳', batting: 'Right-handed', bowling: 'Right-arm medium', source: 'https://en.wikipedia.org/wiki/MS_Dhoni' },
+            { id: 'mithali-raj', name: 'Mithali Raj', initials: 'MR', imagePage: 'Mithali_Raj', search: 'mithali raj batter captain womens cricket india', role: 'Batter', roleType: 'batter', country: 'India', flag: '🇮🇳', batting: 'Right-handed', source: 'https://en.wikipedia.org/wiki/Mithali_Raj' },
+            { id: 'jhulan-goswami', name: 'Jhulan Goswami', initials: 'JG', imagePage: 'Jhulan_Goswami', search: 'jhulan goswami fast bowler womens cricket india', role: 'Fast bowler', roleType: 'bowler', country: 'India', flag: '🇮🇳', bowling: 'Right-arm medium-fast', source: 'https://en.wikipedia.org/wiki/Jhulan_Goswami' },
+            { id: 'anil-kumble', name: 'Anil Kumble', initials: 'AK', imagePage: 'Anil_Kumble', search: 'anil kumble bowler spinner india', role: 'Bowler', roleType: 'bowler', country: 'India', flag: '🇮🇳', birth: '17 October 1970', batting: 'Right-handed', bowling: 'Right-arm leg break', asOf: 'Career ended 2008', source: 'https://en.wikipedia.org/wiki/Anil_Kumble', featured: [['956', 'International wickets'], ['10/74', 'Best Test innings']], bowlingStats: { Test: { matches: '132', wickets: '619', best: '10/74', average: '29.65', economy: '2.69', strikeRate: '65.99', fiveWickets: '35', tenWickets: '8' }, ODI: { matches: '271', wickets: '337', best: '6/12', average: '30.89', economy: '4.30', strikeRate: '43.02', fiveWickets: '2', tenWickets: '0' } } },
+            { id: 'kapil-dev', name: 'Kapil Dev', initials: 'KD', imagePage: 'Kapil_Dev', search: 'kapil dev all-rounder captain 1983 world cup india', role: 'All-rounder', roleType: 'allrounder', country: 'India', flag: '🇮🇳', batting: 'Right-handed', bowling: 'Right-arm fast', source: 'https://en.wikipedia.org/wiki/Kapil_Dev' },
+            { id: 'rohit-sharma', name: 'Rohit Sharma', initials: 'RS', imagePage: 'Rohit_Sharma', search: 'rohit sharma batter captain mumbai india', role: 'Opening batter', roleType: 'batter', country: 'India', flag: '🇮🇳', batting: 'Right-handed', bowling: 'Right-arm off break', source: 'https://en.wikipedia.org/wiki/Rohit_Sharma' },
+            { id: 'rahul-dravid', name: 'Rahul Dravid', initials: 'RD', imagePage: 'Rahul_Dravid', search: 'rahul dravid batter coach wall bengaluru india', role: 'Batter', roleType: 'batter', country: 'India', flag: '🇮🇳', batting: 'Right-handed', source: 'https://en.wikipedia.org/wiki/Rahul_Dravid' },
+            { id: 'smriti-mandhana', name: 'Smriti Mandhana', initials: 'SM', imagePage: 'Smriti_Mandhana', search: 'smriti mandhana batter womens cricket india', role: 'Opening batter', roleType: 'batter', country: 'India', flag: '🇮🇳', batting: 'Left-handed', source: 'https://en.wikipedia.org/wiki/Smriti_Mandhana' }
+        ];
+        const playersById = new Map(playerData.map((player) => [player.id, player]));
+        let favouriteIds = readFavourites();
+        document.querySelector('#footer-year').textContent = new Date().getFullYear();
+
+        function readFavourites() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                return Array.isArray(saved) ? [...new Set(saved.filter((id) => playersById.has(id)))] : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveFavourites() {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(favouriteIds));
+            } catch {}
+        }
+
+        function loadWikipediaImage(image) {
+            const page = image.dataset.wikipediaImage;
+            if (!page) return;
+            fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${page}&prop=pageimages&format=json&pithumbsize=800&origin=*`)
+                .then((response) => {
+                    if (!response.ok) throw new Error('Portrait request failed');
+                    return response.json();
+                })
+                .then((data) => {
+                    const article = Object.values(data.query.pages)[0];
+                    if (!article.thumbnail?.source) return;
+                    image.addEventListener('error', () => image.hidden = true, { once: true });
+                    image.addEventListener('load', () => {
+                        image.classList.add('is-loaded');
+                        if (image.previousElementSibling?.classList.contains('photo-fallback')) image.previousElementSibling.hidden = true;
+                    }, { once: true });
+                    image.src = article.thumbnail.source;
+                })
+                .catch(() => {});
+        }
+
+        function renderPlayerDirectory(query = '') {
+            const normalizedQuery = query.trim().toLowerCase();
+            const visiblePlayers = playerData.filter((player) => player.search.includes(normalizedQuery));
+            playerGrid.innerHTML = visiblePlayers.map((player) => `
+                <article class="player" data-player-id="${player.id}">
+                    <img class="player-photo" data-wikipedia-image="${player.imagePage}" alt="${player.name}" style="--portrait-position: ${player.imagePosition ?? 'center 18%'}" loading="lazy">
+                    <div class="player-info"><div class="player-info-copy"><h3>${player.name}</h3><p>${player.flag} ${player.country} · ${player.role}</p></div><button class="favourite-toggle" type="button" data-favourite-id="${player.id}" aria-label="Add ${player.name} to favourites" aria-pressed="false"><span aria-hidden="true">♡</span></button></div>
+                    <div class="player-actions"><button class="player-action" type="button" data-profile-id="${player.id}">View profile</button><a class="player-action" href="${player.source}" target="_blank" rel="noopener noreferrer">Biography ↗</a></div>
+                </article>`).join('');
+            noResults.style.display = visiblePlayers.length ? 'none' : 'block';
+            playerGrid.querySelectorAll('[data-wikipedia-image]').forEach(loadWikipediaImage);
+            syncFavouriteControls();
+        }
+
+        function syncFavouriteControls() {
+            document.querySelectorAll('[data-favourite-id]').forEach((button) => {
+                const isFavourite = favouriteIds.includes(button.dataset.favouriteId);
+                button.setAttribute('aria-pressed', String(isFavourite));
+                if (button.classList.contains('favourite-toggle')) {
+                    const player = playersById.get(button.dataset.favouriteId);
+                    button.setAttribute('aria-label', `${isFavourite ? 'Remove' : 'Add'} ${player.name} ${isFavourite ? 'from' : 'to'} favourites`);
+                    button.innerHTML = `<span aria-hidden="true">${isFavourite ? '♥' : '♡'}</span>`;
+                } else {
+                    button.textContent = isFavourite ? 'Remove favourite' : 'Add favourite';
+                }
             });
-            noResults.style.display = visibleCount ? 'none' : 'block';
+        }
+
+        function renderFavourites() {
+            const favourites = favouriteIds.map((id) => playersById.get(id)).filter(Boolean);
+            if (!favourites.length) {
+                favouriteGrid.innerHTML = '<div class="favourite-empty"><div class="empty-heart" aria-hidden="true">♡</div><h3>You haven\'t added any favourite cricketers yet.</h3><p>Choose a player from the directory to start your list.</p><button class="player-action" type="button" data-browse-players>Browse players</button></div>';
+                return;
+            }
+            favouriteGrid.innerHTML = favourites.map((player) => `
+                <article class="favourite-card">
+                    <div class="favourite-photo"><span class="photo-fallback" aria-hidden="true">${player.initials}</span><img data-wikipedia-image="${player.imagePage}" alt="${player.name}" style="--portrait-position: ${player.imagePosition ?? 'center 18%'}" loading="lazy"></div>
+                    <div class="favourite-details"><span class="favourite-role">${player.flag} ${player.country} · ${player.role}</span><div class="favourite-card-heading"><h3>${player.name}</h3><button class="favourite-toggle" type="button" data-favourite-id="${player.id}" aria-label="Remove ${player.name} from favourites" aria-pressed="true"><span aria-hidden="true">♥</span></button></div><p class="favourite-team">Batting: ${player.batting ?? unavailable}<br>Bowling: ${player.bowling ?? unavailable}</p>
+                        ${player.featured ? `<div class="record-grid">${player.featured.map(([value, label]) => `<div class="record"><strong>${value}</strong><span>${label}</span></div>`).join('')}</div>` : '<p class="record-note">Detailed career totals are not available in this local profile yet.</p>'}
+                        <div class="player-actions"><button class="player-action" type="button" data-profile-id="${player.id}">View profile</button><button class="player-action" type="button" data-favourite-id="${player.id}" aria-pressed="true">Remove Favourite</button></div>
+                    </div>
+                </article>`).join('');
+            favouriteGrid.querySelectorAll('[data-wikipedia-image]').forEach(loadWikipediaImage);
+            syncFavouriteControls();
+        }
+
+        function statsTable(stats, kind) {
+            const columns = kind === 'batting'
+                ? [['matches','Matches'],['innings','Innings'],['runs','Runs'],['highest','High'],['average','Avg'],['strikeRate','SR'],['hundreds','100s'],['fifties','50s'],['fours','4s'],['sixes','6s']]
+                : [['matches','Matches'],['innings','Innings'],['wickets','Wickets'],['best','Best'],['average','Avg'],['economy','Econ'],['strikeRate','SR'],['fiveWickets','5WI'],['tenWickets','10WI']];
+            return `<div class="profile-table-scroll"><table class="profile-table"><thead><tr><th scope="col">Format</th>${columns.map(([, label]) => `<th scope="col">${label}</th>`).join('')}</tr></thead><tbody>${formats.map((format) => `<tr><th scope="row">${format}</th>${columns.map(([key]) => `<td>${stats?.[format]?.[key] ?? unavailable}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+        }
+
+        function openPlayerProfile(id) {
+            const player = playersById.get(id);
+            if (!player) return;
+            document.querySelector('#profile-title').textContent = player.name;
+            profileFavourite.dataset.favouriteId = player.id;
+            const hasBatting = player.roleType === 'batter' || player.roleType === 'allrounder';
+            const hasBowling = player.roleType === 'bowler' || player.roleType === 'allrounder';
+            profileContent.innerHTML = `<div class="profile-overview"><div class="profile-photo"><span class="photo-fallback" aria-hidden="true">${player.initials}</span><img data-wikipedia-image="${player.imagePage}" alt="${player.name}" style="--portrait-position: ${player.imagePosition ?? 'center 18%'}" loading="lazy"></div><dl class="profile-facts"><div><dt>Country</dt><dd>${player.flag} ${player.country}</dd></div><div><dt>Date of birth</dt><dd>${player.birth ?? unavailable}</dd></div><div><dt>Playing role</dt><dd>${player.role}</dd></div><div><dt>Batting style</dt><dd>${player.batting ?? unavailable}</dd></div><div><dt>Bowling style</dt><dd>${player.bowling ?? unavailable}</dd></div><div><dt>Statistics updated</dt><dd>${player.asOf ?? unavailable}</dd></div></dl></div>${hasBatting ? `<section class="profile-section"><h3>Batting</h3>${statsTable(player.battingStats, 'batting')}</section>` : ''}${hasBowling ? `<section class="profile-section"><h3>Bowling</h3>${statsTable(player.bowlingStats, 'bowling')}</section>` : ''}<p class="profile-source">Statistics not present in this local profile are marked N/A. <a href="${player.source}" target="_blank" rel="noopener noreferrer">Check the player source ↗</a></p>`;
+            syncFavouriteControls();
+            profileContent.querySelectorAll('[data-wikipedia-image]').forEach(loadWikipediaImage);
+            profileDialog.showModal();
+        }
+
+        function toggleFavourite(id) {
+            if (!playersById.has(id)) return;
+            favouriteIds = favouriteIds.includes(id) ? favouriteIds.filter((savedId) => savedId !== id) : [...favouriteIds, id];
+            saveFavourites();
+            syncFavouriteControls();
+            renderFavourites();
+        }
+
+        playerGrid.addEventListener('click', (event) => {
+            const playerCard = event.target.closest('[data-player-id]');
+            if (playerCard && event.target.closest('.player-photo')) openPlayerProfile(playerCard.dataset.playerId);
         });
+        searchInput.addEventListener('input', () => renderPlayerDirectory(searchInput.value));
+        document.addEventListener('click', (event) => {
+            const favouriteButton = event.target.closest('[data-favourite-id]');
+            const profileButton = event.target.closest('[data-profile-id]');
+            if (favouriteButton) toggleFavourite(favouriteButton.dataset.favouriteId);
+            if (profileButton) openPlayerProfile(profileButton.dataset.profileId);
+            if (event.target.closest('[data-browse-players]')) document.querySelector('#players').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.querySelector('.profile-close').addEventListener('click', () => profileDialog.close());
+        profileDialog.addEventListener('click', (event) => { if (event.target === profileDialog) profileDialog.close(); });
+        menuToggle.addEventListener('click', () => {
+            const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', String(!isOpen));
+            menuToggle.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+            menuToggle.textContent = isOpen ? '☰' : '×';
+            siteNav.classList.toggle('is-open', !isOpen);
+        });
+        siteNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+            siteNav.querySelectorAll('a').forEach((item) => item.classList.toggle('active', item.hash === link.hash));
+            siteNav.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Open navigation');
+            menuToggle.textContent = '☰';
+        }));
+        if ('IntersectionObserver' in window) {
+            const sectionObserver = new IntersectionObserver((entries) => {
+                const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                if (visible) siteNav.querySelectorAll('a').forEach((link) => link.classList.toggle('active', link.hash === `#${visible.target.id}`));
+            }, { rootMargin: '-15% 0px -70% 0px', threshold: [0, .2, .5] });
+            document.querySelectorAll('main .section, #overview').forEach((section) => sectionObserver.observe(section));
+        }
+        renderPlayerDirectory();
+        renderFavourites();
+        document.querySelectorAll('[data-wikipedia-image]').forEach(loadWikipediaImage);
     </script>
 </body>
 </html>
